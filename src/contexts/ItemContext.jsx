@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 import nftData from "../utils/Nft.json";

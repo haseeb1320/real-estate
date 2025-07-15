@@ -12,12 +12,12 @@ var Buffer = require('buffer/').Buffer
 
 //ipfs authorization 
 const ipfsClient = require('ipfs-http-client');
-const PROJECT_ID = "2JxLmbuIpIQxW2x2x7Q2UG5qaLv"
-const API_SECRET = "e090f091cad8e0d10abdd17ee55a454e"
+const PROJECT_ID = process.env.REACT_APP_INFURA_PROJECT_ID || "2JxLmbuIpIQxW2x2x7Q2UG5qaLv"
+const API_SECRET = process.env.REACT_APP_INFURA_PROJECT_SECRET || "e090f091cad8e0d10abdd17ee55a454e"
 
-const projectId = PROJECT_ID;   // <---------- my Infura Project ID
+const projectId = PROJECT_ID;   // <---------- Infura Project ID
 
-const projectSecret = API_SECRET;  // <---------- my Infura Secret
+const projectSecret = API_SECRET;  // <---------- Infura Secret
 
 
 const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');

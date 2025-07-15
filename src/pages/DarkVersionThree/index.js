@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiSearch, FiMapPin, FiHome, FiDollarSign } from "react-icons/fi";
 import Countdown from "react-countdown";
 import nftData from "../../utils/Nft.json";
 import marketplaceData from "../../utils/Marketplace.json";
@@ -10,8 +10,8 @@ import { ethers } from "ethers";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import ItemDetail from "../../components/ItemDetail";
-// import ItemDetail from '../../components/Item'
 import StyleSwitcher from "../../components/StyleSwitcher";
+import { getAllProperties, getFeaturedProperties, searchProperties, filterByType } from "../../services/realEstateService";
 import {
   client01,
   client02,
@@ -46,10 +46,19 @@ const DarkVersionThree = () => {
   const [nft2, setNft2] = useState({});
   const [toggle, setToggle] = useState(false);
   const [item, setItem] = useState({});
+  const [realEstateItems, setRealEstateItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedType, setSelectedType] = useState("All");
+  const [featuredProperties, setFeaturedProperties] = useState([]);
 
   useEffect(() => {
     console.log({ items });
-  }, [items]);
+    // Load real estate data
+    const properties = getAllProperties();
+    const featured = getFeaturedProperties();
+    setRealEstateItems(properties);
+    setFeaturedProperties(featured);
+  }, []);
 
   //
 
@@ -125,6 +134,27 @@ const DarkVersionThree = () => {
   const toggleProp = (item) => {
     setItem(item);
     toggle ? setToggle(false) : setToggle(true);
+  };
+
+  // Real estate search and filter functions
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === "") {
+      setRealEstateItems(getAllProperties());
+    } else {
+      const results = searchProperties(query);
+      setRealEstateItems(results);
+    }
+  };
+
+  const handleTypeFilter = (type) => {
+    setSelectedType(type);
+    if (type === "All") {
+      setRealEstateItems(getAllProperties());
+    } else {
+      const filtered = filterByType(type);
+      setRealEstateItems(filtered);
+    }
   };
 
  
